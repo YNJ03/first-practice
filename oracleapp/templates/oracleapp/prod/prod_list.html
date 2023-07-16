@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OracleApp ::: 상품 전체 조회하기</title>
+
+    </script>
+</head>
+<body>
+    <h3>상품관리 - 목록</h3>
+    <hr>
+    <table border="1">
+        <tr>
+            <th>상품코드</th>
+            <th>상품명</th>
+            <th>상품분류코드</th>
+            <th>COST</th>
+            <th>PRICE</th>
+            <th>SALE</th>
+        </tr>
+        {% for row in prod_list %}
+        <tr>
+            <td><a href="/oracle/prod_view/?prod_id={{row.prod_id}}">{{row.prod_id}}</a></td>
+            <td>{{row.prod_name}}</td>
+            <td>{{row.prod_lgu}}</a></td>
+            <td>{{row.prod_cost}}</td>
+            <td>{{row.prod_price}}</td>
+            <td>{{row.prod_sale}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

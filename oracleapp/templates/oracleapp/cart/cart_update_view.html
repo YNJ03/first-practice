@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OracleApp ::: 주문정보 - 업데이트 조회</title>
+    <script type="text/javascript">
+        // 취소
+        function goBack() {
+            // alert("goBack");
+            history.go(-1);
+        }
+
+        // 수정하기
+        function goUpdate() {
+            // alert("goUpdate");
+            // location.href = "/oracle/mem_update/";
+            fm = document.getElementById("fm");
+            // url 정의
+            fm.action = "/oracle/cart_update/";
+            // 전송시키기
+            fm.submit();
+        }
+    </script>
+</head>
+<body>
+    <form id="fm" method="post" action="#">
+    {% csrf_token %}
+    <input type="hidden" name="cart_no" value="{{cart_no}}">
+    <input type="hidden" name="cart_prod" value="{{cart_prod}}">
+
+
+    <h3>주문관리 - 수정하기</h3>
+    <hr>
+    <table border="1">
+        <tr>
+            <th>주문번호</th>
+            <th>회원ID</th>
+            <th>주문상품번호</th>
+            <th>주문수량</th>
+        </tr>
+        <tr>
+            <td>{{cart_view.cart_no}}</td>
+            <td>{{cart_view.cart_member}}</td>
+            <td>{{cart_view.cart_prod}}</td>
+            <td><input type="text" name="cart_qty" value="{{cart_view.cart_qty}}"></td>
+        </tr>
+    </table>
+    <button onclick="goBack()">취소</button>
+    <button onclick="goUpdate()">수정</button>
+</body>
+</html>

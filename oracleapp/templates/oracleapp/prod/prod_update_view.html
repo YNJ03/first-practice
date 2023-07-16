@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OracleApp ::: 상품정보 - 업데이트 조회</title>
+    <script type="text/javascript">
+        // 취소하기
+        function goBack() {
+            history.go(-1);
+        }
+
+        // 수정하기
+        function goUpdate() {
+            fm = document.getElementById("fm");
+            fm.action = "/oracle/prod_update/";
+            fm.submit();
+        }
+    </script>
+</head>
+<body>
+    <form id="fm" method="post" action="#">
+        {% csrf_token %}
+        <input type="hidden" name="prod_id" value="{{prod_id}}">
+    <h3>상품관리 - 수정하기</h3>
+    <hr>
+    <table border="1">
+        <tr>
+            <th>상품코드</th>
+            <th>상품명</th>
+            <th>상품분류코드</th>
+            <th>COST</th>
+            <th>PRICE</th>
+            <th>SALE</th>
+        </tr>
+        <tr>
+            <td>{{prod_view.prod_id}}</td>
+            <td><input type="text" name="prod_name" value="{{prod_view.prod_name}}"></td>
+            <td>{{prod_view.prod_lgu}}</td>
+            <td><input type="text" name="prod_cost" value="{{prod_view.prod_cost}}"></td>
+            <td><input type="text" name="prod_price" value="{{prod_view.prod_price}}"></td>
+            <td><input type="text" name="prod_sale" value="{{prod_view.prod_sale}}"></td>
+        </tr>
+    </table>
+    <button onclick="goBack()">취소</button>
+    <button onclick="goUpdate()">수정</button>
+</body>
+</html>

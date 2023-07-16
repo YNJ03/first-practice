@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>::: 10_mem_list 페이지 :::</title>
+</head>
+<body>
+    <h3>FrontApp-Index 바로가기</h3>
+    <p>
+        <a href="/front/">[FrontApp-Index 바로가기]</a>
+    </p>
+    <table border="1">
+        <tr>
+            <th width="100">회원이름</th>
+            <th width="100">주문일자</th>
+            <th width="100">상품명</th>
+        </tr>
+        {% for dict in msg1 %}
+        <tr>
+            <td>{{dict.mem_name}}</td>
+            <td>{{dict.cart_no}}</td>
+            <td>{{dict.prod_name}}</td>
+        </tr>
+    {% endfor %}
+
+    </table>
+</body>
+</html>

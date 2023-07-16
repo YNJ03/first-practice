@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OracleApp ::: 상품정보 - 상세조회</title>
+    <script type="text/javascript">
+        function goList() {
+            location.href = "/oracle/prod_list/"
+        }
+        function goUpdateView() {
+            location.href = "/oracle/prod_update_view/?prod_id={{prod_id}}";
+        }
+    </script>
+</head>
+<body>
+    <h3>상품정보 - 상세</h3>
+    <hr>
+    <table border="1">
+        <tr>
+            <th>상품코드</th>
+            <th>상품명</th>
+            <th>상품분류코드</th>
+            <th>COST</th>
+            <th>PRICE</th>
+            <th>SALE</th>
+        </tr>
+        <tr>
+            <td>{{prod_view.prod_id}}</td>
+            <td>{{prod_view.prod_name}}</td>
+            <td>{{prod_view.prod_lgu}}</td>
+            <td>{{prod_view.prod_cost}}</td>
+            <td>{{prod_view.prod_price}}</td>
+            <td>{{prod_view.prod_sale}}</td>
+        </tr>
+    </table>
+    <button onclick="goList()">목록</button>
+    <button onclick="goUpdateView()">수정</button>
+</body>
+</html>

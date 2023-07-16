@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>::: JSINPUTFORM 페이지 :::</title>
+    <script type="text/javascript">
+        // post 방식
+        function Login_post() {
+            // 접근 권한 가져오기
+            member = document.getElementById("member");
+
+            // form 내부에 있는 값 가져오기
+            mem_mail = member.mem_mail.value;
+            mem_age = member.mem_age.value;
+            mem_pw = member.mem_pw.value;
+
+            member.action = "/third/login/";
+            member.submit()
+        }
+
+        // get 방식
+        function Login_get() {
+            member = document.getElementById("member");
+            mem_mail = member.mem_mail.value;
+            mem_age = member.mem_age.value;
+            mem_pw = member.mem_pw.value;
+            
+            url = "/third/login/";
+            url += "?mem_mail=" + mem_mail;
+            url += "&mem_age=" + mem_age;
+            url += "&mem_pw=" + mem_pw;
+
+            location.href = url;
+        }
+    </script>
+</head>
+<body>
+    <h3>ThirdApp-Index 바로가기</h3>
+    <p>
+        <a href="/third/">[ThirdApp-Index 바로가기]</a>
+    </p>
+    <b>jsInputForm 페이지 입니다.</b>
+    <hr>
+    <form id="member" name="member" method="post" action="#">
+        {% csrf_token %}
+        이메일 : <input type="text" name="mem_mail" value="test@test.co.kr">
+        <br>
+        나이 : <input type="text" name="mem_age" value="18">
+        <br>
+        패스워드 : <input type="password" name="mem_pw" value="asdf1234">
+        <br>
+        <br>
+        <input type="button" value="로그인-POST" onclick="Login_post()">
+        <input type="button" value="로그인-GET" onclick="Login_get()">
+    </form>
+</body>
+</html>

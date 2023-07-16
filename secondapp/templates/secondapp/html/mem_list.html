@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>::: mem_list 페이지 :::</title>
+</head>
+<body>
+    <h3>second-index 바로가기</h3>
+    <p>
+        <a href="/second/">[second-index 바로가기]</a>
+    </p>
+    <table border="1">
+        <tr>
+            <th width="100">아이디</th>
+            <th width="100">이름</th>
+            <th width="100">나이</th>
+            <th width="100">생일</th>
+        </tr>
+        {% for dict in msg %}
+        <tr>
+            <td>{{dict.mem_id}}</td>
+            <td>{{dict.mem_name}}</td>
+            <td>{{dict.age}}</td>
+            <td>{{dict.mem_bir}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>

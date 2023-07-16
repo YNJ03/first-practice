@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>::: 08_table 페이지 :::</title>
+    <style>
+        table {
+            border : 5px solid black;
+            border-collapse : collapse;
+        }
+        th, td {
+            padding:15px 15px ;
+            text-align: center;
+        }
+        th {
+            background-color: yellow;
+        }
+        
+    </style>
+</head>
+<body>
+    <h3>FrontApp-Index 바로가기</h3>
+    <p>
+        <a href="/front/">[FrontApp-Index 바로가기]</a>
+    </p>
+    <p>08_table 페이지 입니다.</p>
+    <hr/>
+    ** 순수한 mem_list 데이터 출력해 보기<br/>
+    {{mem_list}}
+
+    <table border="1">
+        <tr>
+            <th width="100">아이디</th>
+            <th width="100">이름</th>
+            <th width="400">주소</th>
+        </tr>
+        <!-- 행이 여러 개인 경우 list 타입의 데이터를 아래 출력
+             for문을 이용해서 tr태그 1개에 td의 값을 변경하면서 계속 반복 출력시키면 됨..
+             - 많이 사용되므로 기억하기!!
+        -->
+        {% for dict in mem_list %}
+            <tr>
+                <td>{{dict.mem_id}}</td>
+                <td>{{dict.mem_name}}</td>
+                <td>{{dict.mem_addr}}</td>
+            </tr>
+        {% endfor %}
+        {% comment %} <tr>
+            <td align="center">{{mem_id}}</td>
+            <td align="center">{{mem_name}}</td>
+            <td align="center">{{mem_addr}}</td>
+        </tr> {% endcomment %}
+    </table>
+    <hr/>
+    <p>
+        {{mem_name}}님 안녕하세요. 
+    <br/>
+        아이디는 {{mem_id}} 입니다.
+    <br/>
+        살고 있는 곳은 {{mem_addr}} 이네요...
+    </p>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OracleApp ::: 주문정보 - 입력조회</title>
+    <script type="text/javascript">
+        // 취소
+        function goBack() {
+            // alert("goBack");
+            history.go(-1);
+        }
+
+        // 입력하기
+        function goInsert() {
+            fm = document.getElementById("fm");
+            fm.action = "/oracle/cart_insert/";
+            fm.submit();
+        }
+    </script>
+</head>
+<body>
+    <form id="fm" method="post" action="#">
+    {% csrf_token %}
+
+    <h3>주문관리 - 입력하기</h3>
+    <hr>
+    <table border="1">
+        <tr>
+            <th>주문번호</th>
+            <th>회원ID</th>
+            <th>주문상품번호</th>
+            <th>주문수량</th>
+        </tr>
+        <tr>
+            <td><input type="text" name="cart_no"></td>
+            <td><input type="text" name="cart_member"></td>
+            <td><input type="text" name="cart_prod"></td>
+            <td><input type="text" name="cart_qty"></td>
+        </tr>
+    </table>
+    <button onclick="goBack()">취소</button>
+    <button onclick="goInsert()">입력</button>
+</body>
+</html>

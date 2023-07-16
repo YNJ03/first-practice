@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OracleApp ::: 상품분류 상세 조회하기</title>
+    <script type="text/javascript">
+        function goList() {
+            location.href = "/oracle/lprod_list/"
+        }
+        function goUpdateView() {
+            location.href = "/oracle/lprod_update_view/?lprod_gu={{lprod_gu}}";
+        }
+        function goDelete() {
+            location.href = "/oracle/lprod_delete/?lprod_gu={{lprod_gu}}";
+        }
+    </script>
+</head>
+<body>
+    <h3>상품분류관리 - 상세</h3>
+    <hr>
+    <table border="1">
+        <tr>
+            <th>순서</th>
+            <th>상품분류코드</th>
+            <th>상품분류명</th>
+        </tr>
+        <tr>
+            <td>{{lprod_view.lprod_id}}</td>
+            <td>{{lprod_view.lprod_gu}}</td>
+            <td>{{lprod_view.lprod_nm}}</td>
+            
+        </tr>
+    </table>
+    <button onclick="goList()">목록</button>
+    <button onclick="goUpdateView()">수정</button>
+    <button onclick="goDelete()">삭제</button>
+
+</body>
+</html>

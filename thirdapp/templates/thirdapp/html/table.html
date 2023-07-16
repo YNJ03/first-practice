@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>::: TABLE 페이지 :::</title>
+    <style>
+        table {
+            border : 5px solid black;
+            border-collapse : collapse;
+        }
+        th, td {
+            padding:15px 15px ;
+            text-align: center;
+        }
+        th {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <h3>ThirdApp-Index 바로가기</h3>
+    <p>
+        <a href="/third/index/">[ThirdApp-Index 바로가기]</a>
+    </p>
+    <table border='1'>
+        <tr>
+            <th width="100">상품아이디</th>
+            <th width="100">상품명</th>
+            <th width="400">거래처주소</th>
+        </tr>
+    {% for dict in mem_list %}
+        <tr>
+            <td>{{dict.prod_id}}</td>
+            <td>{{dict.prod_name}}</td>
+            <td>{{dict.buyer_add}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>::: 27_selectbox2 페이지 :::</title>
+    <script type="text/javascript">
+
+        // selectbox 1개 선택
+        function selectOne() {
+            fm = document.getElementById("fm");
+            alert(fm.mem_addr_one.value);
+        }
+        // selectbox 여러개 선택
+        function selectMulti() {
+            // alert("ok..");
+            fm = document.getElementById("fm");
+            // radiobutton 차이점 
+            // - .options : 한번 더 들어가야함
+            // - .selected : 선택한 값이 True/False인지 보여줌 (radiobutton에서는 .checked 사용)
+            // alert(fm.mem_addr_multi.options.length);
+            // alert(fm.mem_addr_multi.options[3].selected);
+
+            // 선택이 하나도 안된 경우 경고창 띄우기
+            // - select박스 선택되어 있는지 확인하기 위해 'chkbool' 사용
+            chkbool = false;
+            for(i=0;i<fm.mem_addr_multi.options.length;i++) {
+                if (fm.mem_addr_multi.options[i].selected == true) {
+                    chkbool = true;
+                }
+            }
+            if (chkbool == false) {
+                alert("1개 이상 선택해주세요!!");
+                return true;
+            }
+        }
+    
+        function initSelectBox(mem_addr_one, mem_addr_multi_list) {
+            fm = document.getElementById("fm");
+
+            for(i=0; fm.mem_addr_multi.options.length; i++) {
+                for(j=0; j<mem_addr_multi_list.length; j++) {
+                    if (fm.mem_addr_multi.options[i].value == mem_addr_multi_list[j]) {
+                        fm.mem_addr_multi.options[i].selected = true;
+                        break;
+                    }
+                }
+            }
+
+            for(i=0; i<fm.mem_addr_one.options.length; i++){
+                if(fm.mem_addr_one.options[i].value == mem_addr_one){
+                    fm.mem_addr_one.options[i].selected = true;
+                    break;
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="initSelectBox('{{mem_addr_one}}', {{mem_addr_multi_list|safe}});">
+    <h3>FrontApp-Index 바로가기</h3>
+    <p>
+        <a href="/front/">[FrontApp-Index 바로가기]</a>
+    </p>
+    <p>27_selectbox2 페이지 입니다.</p>
+
+    <hr>
+
+    <form id="fm" method="post" action="#">
+        {% csrf_token %}
+        <!-- select 박스 생성하기 -->
+        * 지역 선택(1개만 선택가능) :
+        <select name="mem_addr_one" style="width: 100px; height: 50px;">
+            <option value="서울">서울</option>
+            <option value="부산">부산</option>
+            <option value="광주">광주</option>
+            <option value="대전">대전</option>
+        </select> 
+        <hr>
+
+        * 지역 선택(여러개 선택가능) :
+        <select name="mem_addr_multi" style="width: 100px; height: 100px;" multiple>
+            <option value="서울">서울</option>
+            <option value="부산">부산</option>
+            <option value="광주">광주</option>
+            <option value="대전">대전</option>
+        </select> 
+        <hr>
+        <!-- 1개(radiobutton과 똑같음) -->
+        <input type="button" value="한개선택" onclick="selectOne()">
+        <!-- 여러개 -->
+        <input type="button" value="여러개선택" onclick="selectMulti()">       
+    </form>
+</body>
+</html>
