@@ -1,10 +1,191 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from nonmodelapp.nonmodel import cart
+from nonmodelapp.nonmodel import cart, member
 
 ### 페이징처리 라이브러리
 from django.core.paginator import Paginator
+
+### 파일 업/다운로드 라이브러리
+from nonmodelapp.file_util.file_util import File_util
+
+### 데이터시각화를 이미지로 저장하는 라이브러리
+from nonmodelapp.data_view.data_view import Data_View
+
+### 지도맵 시각화를 처리하는 라이브러리
+from nonmodelapp.map_view.map_view import Map_View
+
+# Create your views here.
+
+
+######################### 지도맵을 웹에서 표현하기 ########################
+def map_Visualization(request) :
+    ### 클래스 생성시키기
+    # - 생성자가 자동 호출되어 지도를 그려줍니다.(__init__() 함수 자동 호출)
+    map_view = Map_View()
+    
+    ### 지도맵 시각화 HTML로 받아오기
+    map_html = map_view.getMap()
+    
+    ### 지도맵 시각화에 사용된 데이터프레임 받아오기
+    # - to_html()로 처리한 html 내부는 컨트롤이 불가능함
+    # - 데이터프레임을 스타일 등 적용해서 원하는 모양으로 만들기 위해서는
+    #   -> 리스트의 딕셔너리 형태({}, {}, {})로 만들어서 사용하면 됩니다.
+    #   -> table 태그를 사용해서 컨트롤 가능합니다.
+    map_data = map_view.getDataFrame()
+    
+    return render(request, "nonmodelapp/map_view/map_view.html", {"map_html" : map_html, "map_data" : map_data.to_html()})
+
+
+
+
+######################### 데이터 시각화 이미지를 웹에서 표현하기 ########################
+def data_Visualization(request) :
+    data_view = Data_View()
+    return render(request, "nonmodelapp/data_view/data_view.html", {})
+
+
+
+################## 파일 업로드/다운로드 처리하기 ###################
+### 파일 다운로드 처리
+def setDownload(request) :
+    download_full_name = request.GET.get("download_full_name", "")
+    
+    fu = File_util()
+    
+    ### 다운로드에 필요한 값 설정하기
+    fu.setDownload(download_full_name) 
+    
+    # return HttpResponse(download_full_name)
+    ### 실제 파일 다운로드하기
+    return fu.fileDownload()
+
+
+
+### 파일 업로드 처리
+def getFileUpload(request) :
+    # 제목 받기
+    title = request.POST.get("title", "")
+    # 파일 받기
+    file_nm = request.FILES.get("file_nm", "")
+    
+    msg = "{} / {}".format(title, file_nm)
+    
+    ### 파일 업로드를 위한 물리적 위치 설정하기
+    # - 물리적인 파일 업로드 위치 지정하기
+    upload_dir = "./nonmodelapp/static/nonmodelapp/file_UpDown/"
+    # - 물리적인 다운로드 위치 지정하기
+    download_dir = "./nonmodelapp/static/nonmodelapp/file_UpDown/"
+    # - 물리적인 이미지 경로 지정하기(이미지 파일인 경우)
+    img_dir = "/static/nonmodelapp/file_UpDown/"
+    
+    ### 파일 업로드 및 다운로드에 사용할 클래스 만들기
+    fu = File_util()
+    
+    ### 파일 업로드 시 -> 최초에 초기값 셋팅하기
+    fu.setUpload(file_nm, upload_dir, img_dir, download_dir)
+    
+    ### 실제로 파일 업로드 시키기
+    fu.fileUpload()
+    
+    ### 업로드된 파일 정보 조회하기 ###
+    # 파일 사이즈
+    file_size = fu.file_size
+    # 업로드된 파일명
+    filename = fu.filename
+    # 이미지인 경우 : 이미지 src 경로에 넣을 경로 + 파일명
+    img_full_name = fu.img_full_name
+    # 다운로드인 경우 : 다운로드 경로 + 파일명
+    download_full_name = fu.download_full_name
+    
+    ### DB를 이용해서 업로드된 정보를 테이블에 저장하고자 할 경우
+    # - 사용할 컬럼은 img_full_name과 download_full_name만 저장해 놓으면 됨
+    
+    ### HTML 작성하기
+    msg = """
+            <p>img_full_name : {0}</p>
+            <p>file_size : {1}</p>
+            <p>filename : {2}</p>
+            <p>다운로드 파일명 :
+                <a href='/nonmodel/file_down/?download_full_name={3}'>{2}</a>
+            </p>
+            <p>이미지 파일인 경우 :
+                <img src='{0}'> 
+            </p>
+    """.format(img_full_name, file_size, filename, download_full_name)
+    
+    return HttpResponse(msg)
+
+
+### 파일 업로드 페이지 처리
+def getFileUploadForm(request) :
+    
+    return render(request, "nonmodelapp/file_upload/file_upload_form.html", {})
+
+
+
+
+################# 로그인/로그아웃 처리하기 #####################
+### 로그인 처리
+def login_chk(request) : 
+    # - 아이디 및 패스워드 전송받기
+    mem_id = request.POST.get("mem_id", "")
+    mem_pass = request.POST.get("mem_pass", "")
+    
+    mem_view = member.getLoginChk(mem_id, mem_pass)
+    
+    ### mem_view의 결과값 중 key(result)의 값이 None이면
+    # - '회원정보가 일치하지 않습니다. 다시 입력해 주세요!' 라는 메시지 보여주고,
+    # - index 페이지로 다시 보내기
+    
+    if mem_view.get("result") == "None" :
+        msg = """
+            <script type='text/javascript'>
+            alert('회원정보가 일치하지 않습니다. 다시 입력해 주세요!');
+            location.href = '/';
+        </script>
+        """
+        return HttpResponse(msg)
+    
+    # msg = "{} / {} / {}".format(mem_view["mem_id"], mem_view["mem_pass"], mem_view["mem_name"])
+
+    ### 로그인 인증 처리하기(세션 처리하기)
+    # - 조회 결과가 있으면 세션객체에 회원정보를 담으면 끝~
+    # - 세션객체는 딕셔너리 타입
+    # - 세션객체에 값을 담는 것은 딕셔너리에 값을 넣는 것과 동일함
+    # - request에 들어오는 모든 세션값은 어떤 페이지에서도 사용 가능함(어디서든지 가능)
+    request.session["ses_mem_id"] = mem_id
+    request.session["ses_mem_name"] = mem_view.get("mem_name")
+    
+    ### 로그인 인증처리(세션 처리) 후 페이지 링크 처리
+    msg = """
+        <script type='text/javascript'>
+            alert('환영합니다. [{}]님 로그인 되었습니다.');
+            location.href = '/';
+        </script>
+    """.format(mem_view.get("mem_name"))
+    return HttpResponse(msg)
+
+### 로그아웃 처리
+def logout_chk(request) : 
+    # msg = "logout ok..."
+    
+    ### 로그아웃 처리는 session 딕셔너리의 key를 없애주면 됩니다.
+    # - 딕셔너리에서 모든 정보 삭제하는 함수 :flush()
+    request.session.flush()
+    
+    msg = """
+            <script type='text/javascript'>
+                alert('로그아웃 되었습니다!');
+                location.href = '/';
+            </script>
+    """
+    
+    return HttpResponse(msg)
+
+
+
+
 
 ### 페이징(paging) 처리하기
 def getCartListPaging(request) :
@@ -82,4 +263,4 @@ def getCartListPaging(request) :
 def Index(request) :
     return render(request, "nonmodelapp/index.html", {})
 
-# Create your views here.
+

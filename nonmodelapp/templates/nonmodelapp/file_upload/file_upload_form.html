@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<htm>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>::: File_Upload_Form 페이지 :::</title>
+</head>
+<body>
+    <h3>File Upload Form</h3>
+    <hr>
+    <!-- File Upload를 위해서는 
+        * Form 태그 필요
+        * Form 태그 속성 중에 전송방식은 post로,
+        * 파일 데이터를 전송하기 위해 enctype 속성을 추가해야함 -->
+        <form id="fm" method="post" action="/nonmodel/file_upload/" enctype="multipart/form-data">
+            {% csrf_token %}
+            * 제    목 : <input type="text" name="title" size="20" required>
+            <br>
+            <br>
+            * 첨부파일 : <input type="file" name="file_nm">
+            <hr>
+
+            <input type="submit" value="File Upload">
+        </form>
+</body>
+</html>

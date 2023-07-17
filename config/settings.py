@@ -186,3 +186,8 @@ STATICFILES_DIRS = [BASE_DIR/'static']
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+### 로그인 상태에서 브라우저가 닫혔을 때 
+# - 세션정보(로그인 정보) 삭제하기(로그아웃 처리)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
