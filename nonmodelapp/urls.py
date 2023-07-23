@@ -8,6 +8,21 @@ from nonmodelapp import views
 # - url 하나당, views의 함수 1개를 호출할 수 있도록 매핑합니다.
 # - url을 정의한다고 해서, 패턴(pattern) 정의라고 합니다.
 urlpatterns = [
+    
+    ### 동기&비동기 방식
+    # - http://127.0.0.1:8000/nonmodel/load_view/
+    path('load_view/', views.load_view),
+    
+    # - http://127.0.0.1:8000/nonmodelload_view1/
+    path('load_view1/', views.load_view1),
+    
+    # - http://127.0.0.1:8000/nonmodel/load_view2/
+    path('load_view2/', views.load_view2),
+    
+    # - http://127.0.0.1:8000/nonmodel/load_view3/
+    path('load_view3/', views.load_view3),
+    
+    
     ### 지도맵 시각화
     # - http://127.0.0.1:8000/nonmodel/map_view/
     path('map_view/', views.map_Visualization),

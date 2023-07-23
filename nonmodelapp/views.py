@@ -17,6 +17,29 @@ from nonmodelapp.map_view.map_view import Map_View
 
 # Create your views here.
 
+##################### 동기&비동기 방식 ############################
+def load_view(request) :
+    return render(request, "nonmodelapp/jquery_load/load_view.html", {})
+
+def load_view1(request) :
+    return render(request, "nonmodelapp/jquery_load/load_view1.html", {})
+
+def load_view2(request) :
+    return render(request, "nonmodelapp/jquery_load/load_view2.html", {})
+
+def load_view3(request) :
+    return render(request, "nonmodelapp/jquery_load/load_view3.html", {})
+
+
+
+
+
+
+
+
+
+
+
 
 ######################### 지도맵을 웹에서 표현하기 ########################
 def map_Visualization(request) :
